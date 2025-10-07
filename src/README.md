@@ -23,3 +23,25 @@ The files in this directory can be used to reproduce or extend results from the 
 - `pymdd_fjsp.py` is a pure Python implementation of exact MDDs in PyMDD using instances generated on-the-fly.
 - `results_cp_optimizer.py` is able to parse a directory with CP Optimizer search logs and generate tables with average values regarding bounds, runtime etc.
 - `results_or_tools.py` is able to parse a directory with OR-Tools search logs and generate tables with average values regarding bounds, runtime etc.
+
+## Reproducing results (`uv run`)
+Please refer to the documentation of PyJobShop's Experiments for full information: https://github.com/PyJobShop/Experiments?tab=readme-ov-file#reproducing-results
+
+A copy of this documentation that matches the version here is shown below:
+
+To reproduce all benchmark results, use the `benchmark.py` script which interfaces with the data. For example, to solve all FJSP instances using OR-Tools with a 10-second time limit and 8 cores per instance, run:
+
+```
+uv run benchmark.py ../instances/FJSP/*.txt \
+  --problem_variant FJSP \
+  --solver ortools \
+  --time_limit 10 \
+  --num_workers_per_instance 8 \
+  --display
+```
+
+For more configuration options, you can view the help documentation:
+
+```
+uv run benchmark.py --help
+```
