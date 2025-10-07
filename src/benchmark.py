@@ -14,7 +14,7 @@ from pyjobshop import Result, solve
 from pyjobshop.Model import Model, Mode
 from pyjobshop.Solution import Solution, TaskData
 from pathlib import Path
-from read import ProblemVariant, read
+from read.read import ProblemVariant, read
 
 
 def parse_args():
@@ -281,7 +281,22 @@ def benchmark(instances: list[Path], num_parallel_instances: int, **kwargs):
 
 
 def main():
-    benchmark(**vars(parse_args()))
+    args = parse_args()
+    
+    # Expand possible patterns manually
+    expanded_instances = []
+    for pattern in args.instances:
+        # If user passed a literal pattern (e.g. "instances/*.txt"), expand it
+        matches = list(Path().glob(str(pattern)))
+        if matches:
+            expanded_instances.extend(matches)
+        else:
+            # If no match, just add the original path
+            expanded_instances.append(pattern)
+
+    args.instances = expanded_instances
+    
+    benchmark(**vars(args))
 
 
 if __name__ == "__main__":
